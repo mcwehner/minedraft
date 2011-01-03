@@ -1,0 +1,21 @@
+Javascript Redstone Simulator
+=============================
+
+Upcoming Features
+-----------------
+
+* Saving "stencils": complete circuit patterns that can be inserted into the
+  current document.
+
+* Import/export Minecraft Redstone Simulator `.schematic` files (this is now
+  mostly working)
+
+* Support rendering of multiple views simultaneously
+
+* Import/export to actual chunk data
+
+
+Minecraft Redstone Simulator's `.schematic` File Format
+-------------------------------------------------------
+
+* NBT format

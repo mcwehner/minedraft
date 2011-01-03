@@ -1,0 +1,5 @@
+General Dumping Ground for Ideas
+================================
+
+* Render with a reflection. As in, black background, and anything drawn is
+  reflected subtly. (Is this overused?)
