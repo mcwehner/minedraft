@@ -1,8 +1,7 @@
 window.onload = function ()
 {
     var chunk    = new Chunk({
-        url     : "../chunk-data/c.0.0.dat",
-        //url     : "../MCRS-schematics/test_02.uncompressed.schematic",
+        url     : "sample-data/chunk-data/c.0.0.uncompressed.dat",
         success : chunkLoaded
     });
 };
@@ -12,11 +11,6 @@ function chunkLoaded (chunk)
     var renderer = new IsoRenderer({
         chunk         : chunk,
         parentElement : document.getElementById("rendering_container")
-    });
-    
-    var miniRenderer = new IsoRenderer({
-        chunk         : chunk,
-        parentElement : document.getElementById("mini_renderer")
     });
     
     var input = new InputManager();
@@ -33,11 +27,7 @@ function chunkLoaded (chunk)
         }
         
         renderer.translate(v);
-        miniRenderer.translate(v);
     });
     
     renderer.start();
-    miniRenderer.start();
-    
-    miniRenderer.translate([0, 1, 0]);
 }

@@ -81,9 +81,11 @@ var IsoRenderer = (function ()
     
     IsoRenderer.prototype.initCache = function ()
     {
+        // FIXME: This is probably not the right location for images. (Should
+        // it be configurable?)
         var cacheData = {
-            "terrain" : "../images/terrain.png",
-            "font"    : "../images/font/default.png"
+            "terrain" : "images/terrain.png",
+            "font"    : "images/font/default.png"
         };
         
         this._imageCache = {};
