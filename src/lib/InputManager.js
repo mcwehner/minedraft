@@ -2,15 +2,27 @@ var InputManager = (function ()
 {
     var InputManager = function (options)
     {
-        options = options || {};
+        options = Utils.mergeLeft(options, {
+            keyElement : window // Element responding to key events
+        });
         
         var self = this;
         
-        this._keyDown = function () { /* noop */ };
+        this._keydownMap = {
+            // special; responds to all key events
+            "global" : function () { /* noop */ }
+            
+            // <key code> : <callback function>
+        };
         
-        window.onkeydown = function (event)
+        options.keyElement.onkeydown = function (event)
         {
-            self._keyDown(event.keyCode);
+            // TODO: Handle normal keys.
+            if (self._keydownMap[event.keyCode]) {
+                self._keydownMap[event.keyCode](event);
+            }
+            
+            self._keydownMap.global(event);
         };
     };
     
@@ -19,9 +31,13 @@ var InputManager = (function ()
     InputManager.KEY_RIGHT = 39;
     InputManager.KEY_DOWN  = 40;
     
-    InputManager.prototype.keyDown = function (callback)
+    InputManager.prototype.keydown = function ()
     {
-        this._keyDown = callback;
+        var callback = arguments[arguments.length - 1];
+        
+        for (var i = 0; i < arguments.length - 1; ++i) {
+            this._keydownMap[arguments[i]] = callback;
+        }
     };
     
     return InputManager;

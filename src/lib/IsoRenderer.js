@@ -1,71 +1,11 @@
 var IsoRenderer = (function ()
 {
-    var TEXTURE_TILE_SIZE = 16;
-    
-    var BLOCK_TEXTURE_DATA = (function ()
-    {
-        // TODO: This scheme assumes every face of each block is identical,
-        // which is not always true (e.g., grass). Work out how to deal with
-        // this.
-        
-        // Values are pixel offsets indexed by block id.
-        var data = [];
-        
-        data[1]  = [1, 0];      // Stone
-        data[2]  = [0, 0];      // Grass
-        data[3]  = [2, 0];      // Dirt
-        data[4]  = [0, 1];      // Cobblestone
-        data[5]  = [4, 0];      // Wooden plank
-                                // Sapling
-        data[7]  = [1, 1];      // Bedrock
-        data[8]  = [13, 12];    // Water
-        data[9]  = [13, 12];    // Water (stationary)
-        data[10] = [13, 15];    // Lava
-        data[11] = [13, 15];    // Lava (stationary)
-        data[12] = [2, 1];      // Sand
-        data[13] = [3, 1];      // Gravel
-        data[14] = [0, 2];      // Gold
-        data[15] = [1, 2];      // Iron
-        data[16] = [2, 2];      // Coal ore
-        data[48] = [4, 2];      // Moss stone
-        data[49] = [5, 2];      // Obsidian
-        data[56] = [2, 3];      // Diamond ore
-        data[73] = [3, 3];      // Redstone ore
-        
-        for (var i = 0; i < data.length; ++i) {
-            if (data[i]) {
-                data[i] = [
-                    data[i][0] * TEXTURE_TILE_SIZE,
-                    data[i][1] * TEXTURE_TILE_SIZE
-                ];
-            }
-        }
-        
-        return data;
-    })();
-    
-    var FONT_TILE_SIZE = 8;
-    
-    var FONT_DATA = (function ()
-    {
-        var data = [];
-        
-        for (var i = 0; i < 128; ++i) {
-            data[i] = [
-                (i % 16) * FONT_TILE_SIZE,
-                Math.floor(i / 16) * FONT_TILE_SIZE
-            ];
-        }
-        
-        return data;
-    })();
-    
     // TODO: Make private variables truly private.
     var IsoRenderer = function (options)
     {
-        options = options || {
+        options = Utils.mergeLeft(options, {
             parentElement : document.body
-        };
+        });
         
         if (!options.chunk) {
             throw new Error("Missing required parameter \"chunk\".");
@@ -129,6 +69,8 @@ var IsoRenderer = (function ()
     {
         this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
         
+        // FIXME: This rendering method is producing lines between the tiles
+        // where the background is showing through.
         for (var z = 0; z < this._chunk.size[2]; ++z) {
             for (var x = 0; x < this._chunk.size[0]; ++x) {
                 var blockId     = this._chunk.getBlock([x, this.position[1], z]);
@@ -171,6 +113,67 @@ var IsoRenderer = (function ()
         
         this.render();
     };
+    
+    // TODO: Work out a better way (if there is one) to store this data.
+    var TEXTURE_TILE_SIZE = 16;
+    
+    var BLOCK_TEXTURE_DATA = (function ()
+    {
+        // TODO: This scheme assumes every face of each block is identical,
+        // which is not always true (e.g., grass). Work out how to deal with
+        // this.
+        
+        // Values are pixel offsets indexed by block id.
+        var data = [];
+        
+        data[1]  = [1, 0];      // Stone
+        data[2]  = [0, 0];      // Grass
+        data[3]  = [2, 0];      // Dirt
+        data[4]  = [0, 1];      // Cobblestone
+        data[5]  = [4, 0];      // Wooden plank
+                                // Sapling
+        data[7]  = [1, 1];      // Bedrock
+        data[8]  = [13, 12];    // Water
+        data[9]  = [13, 12];    // Water (stationary)
+        data[10] = [13, 15];    // Lava
+        data[11] = [13, 15];    // Lava (stationary)
+        data[12] = [2, 1];      // Sand
+        data[13] = [3, 1];      // Gravel
+        data[14] = [0, 2];      // Gold
+        data[15] = [1, 2];      // Iron
+        data[16] = [2, 2];      // Coal ore
+        data[48] = [4, 2];      // Moss stone
+        data[49] = [5, 2];      // Obsidian
+        data[56] = [2, 3];      // Diamond ore
+        data[73] = [3, 3];      // Redstone ore
+        
+        for (var i = 0; i < data.length; ++i) {
+            if (data[i]) {
+                data[i] = [
+                    data[i][0] * TEXTURE_TILE_SIZE,
+                    data[i][1] * TEXTURE_TILE_SIZE
+                ];
+            }
+        }
+        
+        return data;
+    })();
+    
+    var FONT_TILE_SIZE = 8;
+    
+    var FONT_DATA = (function ()
+    {
+        var data = [];
+        
+        for (var i = 0; i < 128; ++i) {
+            data[i] = [
+                (i % 16) * FONT_TILE_SIZE,
+                Math.floor(i / 16) * FONT_TILE_SIZE
+            ];
+        }
+        
+        return data;
+    })();
     
     return IsoRenderer;
 })();

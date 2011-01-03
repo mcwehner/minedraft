@@ -15,18 +15,18 @@ function chunkLoaded (chunk)
     
     var input = new InputManager();
     
-    input.keyDown(function (keyCode)
+    input.keydown(InputManager.KEY_UP, function ()
     {
-        var v = [0, 0, 0];
-        
-        if (InputManager.KEY_UP == keyCode) {
-            if (renderer.position[1] < chunk.size[1] - 1) { ++v[1]; }
+        if (renderer.position[1] < chunk.size[1] - 1) {
+            renderer.translate([0, 1, 0]);
         }
-        else if (InputManager.KEY_DOWN == keyCode) {
-            if (renderer.position[1] > 0) { --v[1]; }
+    });
+    
+    input.keydown(InputManager.KEY_DOWN, function ()
+    {
+        if (renderer.position[1] > 0) {
+            renderer.translate([0, -1, 0]);
         }
-        
-        renderer.translate(v);
     });
     
     renderer.start();
